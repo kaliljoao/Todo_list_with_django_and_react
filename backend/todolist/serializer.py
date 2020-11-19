@@ -15,11 +15,5 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'username', 'password', 'is_superuser', 'date_joined', 'is_staff', 'user_permissions', 'is_active', 'groups']
 
     def validate_password(self, value: str) -> str:
-        """
-        Hash value passed by user.
-
-        :param value: password of a user
-        :return: a hashed version of the password
-        """
         return make_password(value)
 
