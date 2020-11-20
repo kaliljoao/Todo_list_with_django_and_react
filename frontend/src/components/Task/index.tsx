@@ -20,7 +20,7 @@ interface ITask {
   title: string;
   priority: number;
   categories?: string[];
-  date?: Date;
+  date?: Date | null | undefined;
 }
 
 interface TaskProps {

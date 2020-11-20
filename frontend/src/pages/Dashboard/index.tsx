@@ -1,6 +1,7 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 
 import Button from '../../components/Button';
+import DatePicker from '../../components/DatePicker';
 import Header from '../../components/Header';
 import Task from '../../components/Task';
 
@@ -21,16 +22,16 @@ interface ITask {
   title: string;
   priority: number;
   categories?: string[];
-  date?: Date;
+  date?: Date | null | undefined;
 }
 
 const Dashboard: React.FC = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-
+ 
   const [creatingMode, setCreatingMode] = useState(false);
 
   const [title, setTitle] = useState('');
+  const [date, setDate] = useState<Date | null>(null);
 
   useEffect(() => {
     setTasks([
@@ -50,8 +51,9 @@ const Dashboard: React.FC = () => {
     },
     ])
 
-    setCategories(["Trabalho"]);
+    // setCategories(["Trabalho"]);
   }, []);
+
 
   const handleCreateTask = useCallback(() => {
     setCreatingMode(true);
@@ -73,14 +75,14 @@ const Dashboard: React.FC = () => {
       title,
       priority: 0,
       categories: [],
-      date: new Date(),
+      date,
     }
 
     setTasks(prev => [...prev, task]);
 
     setTitle('');
     setCreatingMode(false);
-  }, [title])
+  }, [title, date])
 
   return (
     <Container>
@@ -113,7 +115,7 @@ const Dashboard: React.FC = () => {
                   />
 
                   <InputOptions>
-
+                    <DatePicker setDate={setDate}/>
                   </InputOptions>
                 </div>
                 <div>

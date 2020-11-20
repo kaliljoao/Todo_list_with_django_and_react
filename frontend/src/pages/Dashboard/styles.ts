@@ -57,10 +57,12 @@ export const CreateTaskForm = styled.form`
   flex-direction: column;
   justify-content: center;
 
-  > div {
+  > div:first-child {
     display: flex;
+    justify-content: space-between;
 
     > input {
+      flex: 1;
       background: transparent;
       border: none;
       outline: none;
@@ -69,12 +71,17 @@ export const CreateTaskForm = styled.form`
   }
 
   > div + div {
+    display: flex;
     margin-top: 1.6rem;
   }
 `;
 
 export const InputOptions = styled.div`
+  width: auto;
 
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 export const CreateTaskButton = styled.button`
