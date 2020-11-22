@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Form } from '@unform/web';
 
 import Input from '../Input';
 
@@ -24,23 +25,26 @@ const Header: React.FC = () => {
   return (
     <Container>
       <LeftSide>
-        <button>
+        {/* <button>
           <MenuIcon/>
         </button>
-      
+       */}
         <Logo/>
       </LeftSide>
 
       <RightSide>
-        <Input
-          containerStyles={{
-            height: "4.2rem",
-            borderColor: "transparent",
-            backgroundColor: "var(--tertiary)"
-          }}
-          icon={SearchIcon}
-          placeholder="Busque tarefas"
-        />
+        <Form onSubmit={() => {}}>
+          <Input
+            name='search'
+            containerStyles={{
+              height: "4.2rem",
+              borderColor: "transparent",
+              backgroundColor: "var(--tertiary)"
+            }}
+            icon={SearchIcon}
+            placeholder="Busque tarefas"
+          />
+        </Form>
 
         <div>
           <Greeting>

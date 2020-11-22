@@ -50,11 +50,10 @@ const DatePicker: React.FC<DatePickerProps> = ({ setDate }) => {
         onChange={date => {
           setStartDate(date as Date);
           setDate(date as Date);
-          return
         }}
         dateFormat="PPp"
         locale={ptBR}
-        // withPortal
+        shouldCloseOnSelect={false}
         renderCustomHeader={({
         date,
         changeYear,

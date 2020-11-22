@@ -121,13 +121,22 @@ export const CustomInputContainer = styled.div`
   align-items: center;
   justify-content: center;
 
+  margin-left: 0.4rem;
   padding: 0.6rem;
   border-radius: 0.6rem;
 
   color: var(--primary-darker);
 
+  cursor: pointer;
+
+  transition: background-color 0.2s ease-out;
+
   > span {
     margin-left: 0.4rem;
+  }
+
+  &:hover {
+    background: var(--dashboard-background);
   }
 `;
 

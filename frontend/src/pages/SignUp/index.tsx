@@ -1,5 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useRef } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { FormHandles } from '@unform/core';
+
+import getValigationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -16,36 +21,82 @@ import {
   Logo
 } from './styles';
 
+interface ISignUpFormData {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
 const SignUp: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
+
+  const handleSubmit = useCallback( async (data: ISignUpFormData) => {
+
+    try {
+      formRef.current?.setErrors({});
+      
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
+        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+        passwordConfirmation: Yup.string()
+          .oneOf([Yup.ref('password'), undefined], 'Senhas devem ser iguais')
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      // await api.post('/', data);
+
+      console.log(data);
+
+      history.push('/');
+
+    } catch(err) {
+      if (err instanceof Yup.ValidationError) {
+        const erros = getValigationErrors(err);
+
+        formRef.current?.setErrors(erros);
+      }
+    }
+  },[history]);
+
   return (
     <Container>
       <AnimatedWrapper>
-        <Form onSubmit={() => {}} >
+        <Form onSubmit={handleSubmit} ref={formRef} >
           <h2>Crie sua conta</h2>
 
           <Input
             icon={MailIcon}
             autoFocus
-            type="email"
+            name="email"
             placeholder="Digite seu e-mail"
           />
 
           <Input
             icon={UserIcon}
-            type="name"
+            name="name"
             placeholder="Digite seu nome"
           />
 
           <Input
             icon={LockIcon}
-            type="password"
+            name="password"
             placeholder="Digite sua senha"
+            type="password"
+            autoComplete="new-password"
           />
           
           <Input
             icon={LockIcon}
-            type="password"
+            name="passwordConfirmation"
             placeholder="Confirme sua senha"
+            type="password"
+            autoComplete="new-password"
           />
 
           <Button

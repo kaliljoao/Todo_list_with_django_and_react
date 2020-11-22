@@ -11,7 +11,7 @@ export const Container = styled.div`
   align-items: center;
 
   background: var(--secondary);
-  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0.1rem 0.8rem rgba(0, 0, 0, 0.25);
 `;
 
 export const LeftSide = styled.div`
@@ -32,8 +32,8 @@ export const LeftSide = styled.div`
 `;
 
 const iconCSS = css`
-  width: 20px;
-  height: 20px;
+  min-width: 2rem;
+  height: 2rem;
   color: var(--primary);
 `;
 
@@ -41,9 +41,10 @@ export const MenuIcon = styled(MdMenu)`
   ${iconCSS}
 `;
 
+/* margin-left: 2.4rem; */
+
 export const Logo = styled.img`
-  margin-left: 2.4rem;
-  width: 60px;
+  width: 6rem;
 `;
 
 Logo.defaultProps = {

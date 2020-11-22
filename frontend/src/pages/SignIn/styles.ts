@@ -1,5 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 import { MdMail, MdLock } from 'react-icons/md'
+import { Form as Unform } from '@unform/web';
+
 import LogoImg from '../../assets/logo.svg';
 
 export const Container = styled.div`
@@ -30,7 +32,7 @@ export const AnimatedWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  animation: ${fadeFromLeft} 1s ease-out;
+  animation: ${fadeFromLeft} 0.4s ease-out;
 `;
 
 export const Content = styled.div`
@@ -58,14 +60,14 @@ export const Content = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 86px;
+  width: 8.6rem;
 `;
 
 Logo.defaultProps = {
   src: LogoImg
 }
 
-export const Form = styled.form`
+export const Form = styled(Unform)`
   background-color: var(--tertiary);
   padding: 5.8rem;
   border-radius: 0.8rem;
@@ -87,8 +89,8 @@ export const Form = styled.form`
 `;
 
 const iconCSS = css`
-  width: 20px;
-  height: 20px;
+  min-width: 2rem;
+  height: 2rem;
   color: var(--tertiary);
 `;
 
@@ -97,7 +99,7 @@ export const MailIcon = styled(MdMail)`${iconCSS}`;
 export const LockIcon = styled(MdLock)`${iconCSS}`;
 
 export const Register = styled.div`
-  margin-top: 24px;
+  margin-top: 2.4rem;
     
   display: flex;
   align-items: center;

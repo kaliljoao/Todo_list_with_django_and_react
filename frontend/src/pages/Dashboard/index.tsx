@@ -3,6 +3,7 @@ import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import DatePicker from '../../components/DatePicker';
 import Header from '../../components/Header';
+import Select from '../../components/Select';
 import Task from '../../components/Task';
 
 import {
@@ -32,40 +33,39 @@ const Dashboard: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [date, setDate] = useState<Date | null>(null);
+  const [selectedPriority, setSelectedPriority] = useState<number>(0);
 
   useEffect(() => {
     setTasks([
-    {
-      id: 1,
-      title: "Entregar formulário",
-      priority: 3,
-      categories: [],
-      date: new Date()
-    },
-    {
-      id: 2,
-      title: "Entregar formulário",
-      priority: 1,
-      categories: ["Trabalho"],
-      date: new Date()
-    },
+      {
+        id: 1,
+        title: "Entregar formulário",
+        priority: 3,
+        categories: [],
+        date: new Date()
+      },
+      {
+        id: 2,
+        title: "Entregar formulário",
+        priority: 1,
+        categories: ["Trabalho"],
+        date: new Date()
+      },
     ])
-
-    // setCategories(["Trabalho"]);
   }, []);
 
 
   const handleCreateTask = useCallback(() => {
     setCreatingMode(true);
-  }, [])
+  }, []);
 
   const handleCancelCreation = useCallback(() => {
     setCreatingMode(false);
-  }, [])
+  }, []);
 
   const handleDelete = useCallback((id) => {
     setTasks(prev => prev.filter(task => task.id !== id));
-  }, [])
+  }, []);
 
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ const Dashboard: React.FC = () => {
     const task = {
       id: title.length,
       title,
-      priority: 0,
+      priority: selectedPriority,
       categories: [],
       date,
     }
@@ -82,7 +82,8 @@ const Dashboard: React.FC = () => {
 
     setTitle('');
     setCreatingMode(false);
-  }, [title, date])
+    setSelectedPriority(0);
+  }, [title, date, selectedPriority]);
 
   return (
     <Container>
@@ -115,13 +116,26 @@ const Dashboard: React.FC = () => {
                   />
 
                   <InputOptions>
+                    <Select
+                      onChange={setSelectedPriority}
+                      options={[
+                        { value: 1, label: 'Prioridade 1' },
+                        { value: 2, label: 'Prioridade 2' },
+                        { value: 3, label: 'Prioridade 3' },
+                        { value: 0, label: 'Sem prioridade' },
+                      ]}
+                    />
                     <DatePicker setDate={setDate}/>
                   </InputOptions>
                 </div>
                 <div>
                   <Button
                     containerStyles={{
-                      width: "content-fit"
+                      width: "content-fit",
+                      backgroundColor: "var(--darker-gray)"
+                    }}
+                    containerHoverStyles={{
+                      opacity: '0.8',
                     }}
                     type="submit"
                   >
@@ -129,10 +143,15 @@ const Dashboard: React.FC = () => {
                   </Button>
                   <Button
                     styleType="text"
+                    type="button"
                     onClick={handleCancelCreation}
                     containerStyles={{
                       width: "content-fit",
-                      marginLeft: "0.8rem"
+                      marginLeft: "0.8rem",
+                      color: "var(--gray)"
+                    }}
+                    containerHoverStyles={{
+                      opacity: '0.8',
                     }}
                   >
                     Cancelar

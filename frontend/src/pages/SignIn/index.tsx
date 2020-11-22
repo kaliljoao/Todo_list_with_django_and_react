@@ -1,5 +1,10 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { FormHandles } from '@unform/core';
+
+import getValigationErrors from '../../utils/getValidationErrors';
+import { useAuth }  from '../../hooks/AuthContext';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -12,25 +17,54 @@ import {
   Form,
   MailIcon,
   LockIcon,
-  Register  
+  Register
 } from './styles';
 
+interface ISignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+  const { signIn } = useAuth();
+
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCallback((e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = useCallback(async (data: ISignInFormData) => {
     setLoading(prev => !prev);
 
-    setTimeout(() => {
-      setLoading(prev => !prev);
-      history.push('/dashboard');
-    }, 1000);
+    try {
+      formRef.current?.setErrors({});
+      
+      const schema = Yup.object().shape({
+        email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
+        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+      });
 
-  }, [history]);
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      await signIn({
+        email: data.email,
+        password: data.password
+      });
+
+      history.push('/dashboard');
+
+    } catch(err) {
+      if (err instanceof Yup.ValidationError) {
+        const erros = getValigationErrors(err);
+
+        formRef.current?.setErrors(erros);
+      }
+
+      setLoading(prev => !prev);
+    }
+  }, [history, signIn]);
 
   return (
     <Container>
@@ -46,20 +80,22 @@ const SignIn: React.FC = () => {
           </h1>
         </Content>
 
-        <Form onSubmit={handleSubmit} >
+        <Form ref={formRef} onSubmit={handleSubmit} >
           <h2>Faça seu Login</h2>
 
           <Input
             icon={MailIcon}
             autoFocus
-            type="email"
+            name="email"
             placeholder="Digite seu e-mail"
           />
 
           <Input
             icon={LockIcon}
-            type="password"
+            name="password"
             placeholder="Digite sua senha"
+            autoComplete="current-password"
+            type="password"
           />
 
           <Link to="/forgot-password" >Esqueci minha senha</Link>

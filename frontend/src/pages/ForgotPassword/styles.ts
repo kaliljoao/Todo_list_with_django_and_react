@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
+import { Form as Unform } from '@unform/web';
 import { MdMail } from 'react-icons/md'
 
 export const Container = styled.div`
@@ -20,13 +21,13 @@ const fadeFromBottom = keyframes`
   }
 `;
 
-export const Form = styled.form`
+export const Form = styled(Unform)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  animation: ${fadeFromBottom} 0.8s ease-out;
+  animation: ${fadeFromBottom} 0.4s ease-out;
 
   > h2 {
     margin-bottom: 2.8rem;
@@ -42,8 +43,8 @@ export const Form = styled.form`
 `;
 
 const iconCSS = css`
-  width: 20px;
-  height: 20px;
+  min-width: 2rem;
+  height: 2rem;
   color: var(--tertiary);
 `;
 

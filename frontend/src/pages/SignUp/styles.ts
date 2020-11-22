@@ -1,11 +1,12 @@
 import styled, { css, keyframes } from 'styled-components';
 import { MdMail, MdLock, MdPerson, MdArrowBack } from 'react-icons/md'
+import { Form as Unform } from '@unform/web';
 
-import signInBackgroundImg from '../../assets/sign-up-background.png';
+import signInBackgroundImg from '../../assets/sign-up-background.jpg';
 import LogoImg from '../../assets/logo.svg';
 
 export const Container = styled.div`
-  height: 100%;
+  height: 100vh;
 
   display: flex;
   align-items: stretch;
@@ -31,10 +32,11 @@ export const AnimatedWrapper = styled.div`
   align-items: center;
   place-content: center;
 
-  animation: ${fadeFromRight} 1s ease-out; 
+  animation: ${fadeFromRight} 0.4s ease-out;
+
 `;
 
-export const Form = styled.form`
+export const Form = styled(Unform)`
   background-color: var(--tertiary);
   padding: 5.8rem;
   border-radius: 0.8rem;
@@ -62,7 +64,7 @@ export const Form = styled.form`
 `;
 
 const iconCSS = css`
-  width: 20px;
+  min-width: 20px;
   height: 20px;
   color: var(--tertiary);
 `;

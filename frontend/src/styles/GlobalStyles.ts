@@ -32,14 +32,18 @@ export default createGlobalStyle`
 
  :root {
     --primary: #EA9413;
+    --primary-darker: #B67411;
     --secondary: #131313;
     --tertiary: #22201E;
 
-    --dashboard-background: #1b1b1b;   
-    --primary-darker: #B67411;
     --text-color: #DAE9FF;
+
+    --dashboard-background: #1b1b1b;   
     --gray: #868686;
     --darker-gray: #484848;
+
+    --error: #c53030;
+    --tooltip-error: #c54040;
 
     --priority-1: #A53030;
     --priority-2: #887F29;

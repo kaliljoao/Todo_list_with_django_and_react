@@ -1,6 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { FiAlertCircle } from 'react-icons/fi';
+import Tooltip from '../Tooltip';
 
-export const Container = styled.div`
+interface IContainerProps {
+  isFilled: boolean;
+  isErrored: boolean;
+}
+
+export const Container = styled.div<IContainerProps>`
   background-color: var(--secondary);
   width: 36rem;
 
@@ -12,12 +19,22 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
+  ${props => props.isErrored && css`
+    border-color: var(--error);
+  `}
+
+  ${props => props.isFilled && css`
+    > svg {
+      color: var(--primary);
+    }
+  `}
+
   & + div {
     margin-top: 0.8rem;
   }
 
   > input {
-    width: 28.8rem;
+    width: 100%;
     margin-left: 1.4rem;
     background: transparent;
     border: 0;
@@ -33,4 +50,27 @@ export const Container = styled.div`
       color: var(--primary);
     }
   }
+`;
+
+export const Error = styled(Tooltip)`
+  height: 20px;
+  margin-left: 16px;
+
+  svg {
+    margin: 0;
+  }
+
+  span {
+    background: var(--tooltip-error);
+    color: var(--text-color);
+
+    &::before{
+      border-color: var(--tooltip-error) transparent;
+    }
+  }
+`;
+
+export const AlertIcon = styled(FiAlertCircle)`
+  width: 2rem;
+  color: var(--error);
 `;

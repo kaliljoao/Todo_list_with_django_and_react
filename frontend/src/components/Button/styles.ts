@@ -13,7 +13,7 @@ export const Container = styled.button<ButtonProps>`
   border: 0.1rem solid transparent;
   border-radius: 0.4rem;
 
-  transition: 0.4s ease-out;
+  transition: color 0.4s ease-out, background-color 0.4s ease-out, border-color 0.4s ease-out, opacity 0.4s ease-out;
 
   ${props => {
     if (props.styleType?.includes('outlined')) {
