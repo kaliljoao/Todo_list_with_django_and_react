@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework import viewsets, status
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 
@@ -46,7 +46,6 @@ class TaskViewSet(viewsets.ModelViewSet):
         return JsonResponse(TaskSerializer(queryset, many=True).data, safe=False)
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-
+    http_method_names = ['post']
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
