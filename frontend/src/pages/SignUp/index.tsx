@@ -49,7 +49,11 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      const response = await api.post('/users/', {...data, username: data.email});
+      const response = await api.post('/users/', {
+        ...data,
+        username: data.email,
+        first_name: data.name
+      });
 
       console.log(response);
 

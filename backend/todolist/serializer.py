@@ -12,7 +12,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'username', 'password', 'is_superuser', 'date_joined', 'is_staff', 'user_permissions', 'is_active', 'groups']
+        fields = ['id', 'email', 'username', 'first_name', 'password', 'is_superuser', 'date_joined', 'is_staff', 'user_permissions', 'is_active', 'groups']
 
     def validate_password(self, value: str) -> str:
         return make_password(value)

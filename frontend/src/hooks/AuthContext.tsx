@@ -41,21 +41,28 @@ export const AuthProvider: React.FC = ({ children }) => {
 
 
   const signIn = useCallback( async ({ email, password }) => {
-    const response = await api.post('auth/token/', {
+    let response = await api.post('auth/token/', {
       username: email,
       password,
     });
+  
+    console.log(response.data)
+
+    const { access } = response.data;
+
+    api.defaults.headers.authorization = `Bearer ${access}`;
+
+    response = await api.get('users/info/');
 
     console.log(response.data)
 
-    const { token, user } = response.data;
+    const { user } = response.data;
 
-    localStorage.setItem('@Working:token', token);
+    localStorage.setItem('@Working:token', access);
     localStorage.setItem('@Working:user', JSON.stringify(user));
 
-    api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, user });
+    setData({ token: access, user });
   }, []);
 
   const signOut = useCallback( async () => {
