@@ -49,3 +49,8 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ['post']
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
+    @api_view(['GET'])
+    def get_logged_user(request):
+        user = CustomUser.objects.get(id=request.user.id)
+        return JsonResponse(UserSerializer(user).data, safe=False)
