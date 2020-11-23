@@ -40,7 +40,7 @@ const SignUp: React.FC = () => {
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório'),
         email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
-        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+        password: Yup.string().min(8, 'No mínimo 8 dígitos'),
         passwordConfirmation: Yup.string()
           .oneOf([Yup.ref('password'), undefined], 'Senhas devem ser iguais')
       });
@@ -49,9 +49,9 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      // await api.post('/', data);
+      const response = await api.post('/users/', data);
 
-      console.log(data);
+      console.log(response);
 
       history.push('/');
 

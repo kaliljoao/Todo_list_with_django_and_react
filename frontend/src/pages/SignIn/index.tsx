@@ -98,7 +98,7 @@ const SignIn: React.FC = () => {
             type="password"
           />
 
-          <Link to="/forgot-password" >Esqueci minha senha</Link>
+          {/* <Link to="/forgot-password" >Esqueci minha senha</Link> */}
 
           <Button
             containerStyles={{

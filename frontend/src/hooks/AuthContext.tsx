@@ -3,7 +3,6 @@ import api from '../services/api';
 
 interface User {
   id: string;
-  avatar_url: string;
   name: string;
   email: string;
 }
@@ -42,7 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
 
   const signIn = useCallback( async ({ email, password }) => {
-    const response = await api.post('sessions', {
+    const response = await api.post('auth/token', {
       email,
       password,
     });
