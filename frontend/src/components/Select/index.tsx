@@ -28,6 +28,7 @@ const Select: React.FC<SelectProps> = ({ options, onChange }) => {
       <CustomSelect>
         {options.map(option => (
           <div
+            key={option.value}
             onClick={() => handleSelect(option.value)}
             className={ option.value === prioritySelected ? 'selected' : ''}
           >

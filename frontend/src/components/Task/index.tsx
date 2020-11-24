@@ -20,33 +20,37 @@ interface ITask {
   title: string;
   priority: number;
   categories?: string[];
-  date?: Date | null | undefined;
+  deadline?: string | null | undefined;
+  is_done: boolean;
 }
 
 interface TaskProps {
   data: ITask;
+  onDone: (id: number) => void;
   onDelete: (id: number) => void;
 }
 
-const Task: React.FC<TaskProps> = ({ data, onDelete }) => {
+const Task: React.FC<TaskProps> = ({ data, onDone, onDelete }) => {
   return (
     <Container>
       <Content>
         <Info>
-          { data.date &&
-            <Schedule>{format(data.date, 'p • d MMMM', { locale: ptBR })}</Schedule>
+          { data.deadline &&
+            <Schedule>{format(new Date(data.deadline), 'p • d MMMM', { locale: ptBR })}</Schedule>
           }
           { data.categories?.length !== 0 &&
             <Group>#{data.categories?.join(" #")}</Group>
           }
-          { data.date &&
+          { data.deadline &&
             <TimeLeft>Restam 30 min</TimeLeft>
           }
         </Info>
         
         <CheckBox
-          name={data.id.toString()}
+          id={data.id.toString()}
+          checked={data.is_done}
           title={data.title}
+          onDone={onDone}
         />
       </Content>
 

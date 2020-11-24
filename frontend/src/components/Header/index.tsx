@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 import Input from '../Input';
 
 import {
@@ -16,11 +18,14 @@ import {
 } from './styles';
 
 const Header: React.FC = () => {
+  const { user, signOut } = useAuth();
   const history = useHistory();
 
-  const handleLogOut = useCallback(() => {
+  const handleLogOut = useCallback( () => {
+    signOut();
     history.push('/');
-  }, [history]);
+
+  }, [history, signOut]);
 
   return (
     <Container>
@@ -33,7 +38,7 @@ const Header: React.FC = () => {
       </LeftSide>
 
       <RightSide>
-        <Form onSubmit={() => {}}>
+        {/* <Form onSubmit={() => {}}>
           <Input
             name='search'
             containerStyles={{
@@ -44,11 +49,12 @@ const Header: React.FC = () => {
             icon={SearchIcon}
             placeholder="Busque tarefas"
           />
-        </Form>
+        </Form> */}
+        <div></div>
 
         <div>
           <Greeting>
-            Bom dia, Pedro
+            Bom dia, {user.first_name}
           </Greeting>
           
           <button

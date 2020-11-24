@@ -3,8 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from todolist.models import Task, CustomUser
 
 class Tasks(admin.ModelAdmin):
-    list_display = ('Description',)
-
+    list_display = ('title',)
 
 class Users(UserAdmin):
     list_display = ('id','email')

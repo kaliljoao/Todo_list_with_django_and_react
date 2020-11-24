@@ -74,9 +74,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOW_HEADERS = [ 'token', 'content-type', 'authorization', 'Authorization' ]
+CORS_ALLOW_HEADERS = [ 'token', 'content-type', 'Authorization' ]
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
@@ -148,9 +147,9 @@ AUTH_USER_MODEL = 'todolist.CustomUser'
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 

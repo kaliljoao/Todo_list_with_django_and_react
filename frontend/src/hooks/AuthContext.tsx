@@ -3,7 +3,7 @@ import api from '../services/api';
 
 interface User {
   id: string;
-  name: string;
+  first_name: string;
   email: string;
 }
 
@@ -31,7 +31,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const user = localStorage.getItem('@Working:user');
 
     if (token && user){
-      api.defaults.headers.authorization = `Bearer ${token}`;
+      api.defaults.headers.Authorization = `Bearer  ${token}`;
 
       return { token, user: JSON.parse(user) };
     } else {
@@ -50,24 +50,28 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const { access } = response.data;
 
-    api.defaults.headers.authorization = `Bearer ${access}`;
+    api.defaults.headers.Authorization = `Bearer  ${access}`;
 
-    response = await api.get('users/info/');
+    console.log(api.defaults.headers.Authorization)
 
-    console.log(response.data)
+    response = await api.get('user/info/');
 
-    const { user } = response.data;
+    delete response.data.password
+    delete response.data.user_permissions
+
+    const user = response.data;
 
     localStorage.setItem('@Working:token', access);
     localStorage.setItem('@Working:user', JSON.stringify(user));
 
-
     setData({ token: access, user });
   }, []);
 
-  const signOut = useCallback( async () => {
+  const signOut = useCallback(() => {
     localStorage.removeItem('@Working:token');
     localStorage.removeItem('@Working:user');
+
+    api.defaults.headers.Authorization = null;
 
     setData({} as AuthState);
   }, []);

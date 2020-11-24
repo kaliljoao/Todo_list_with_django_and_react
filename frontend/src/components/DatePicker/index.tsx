@@ -113,7 +113,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ setDate }) => {
         )}}
         showTimeInput
         customInput={<CustomInput/>}
-        customTimeInput={<CustomTimeInput />}
+        customTimeInput={<CustomTimeInput/>}
         renderDayContents={renderDayContents}
         todayButton="Hoje"
         calendarClassName="calendar"
@@ -128,7 +128,8 @@ export default DatePicker;
 
 type ICustomInputProps = InputHTMLAttributes<HTMLInputElement>;
 
-const CustomInput: React.FC<ICustomInputProps> = ({value, onClick}) => {
+
+const CustomInput: React.FC<ICustomInputProps> = ({ value, onClick }) => {
   return (
     <CustomInputContainer onClick={onClick}>
       <ClockIcon/>

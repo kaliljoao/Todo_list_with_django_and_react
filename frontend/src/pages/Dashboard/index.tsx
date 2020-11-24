@@ -1,4 +1,9 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import { format } from 'date-fns';
+
+import api from '../../services/api';
+import { useAuth } from '../../hooks/AuthContext';
+
 
 import Button from '../../components/Button';
 import DatePicker from '../../components/DatePicker';
@@ -23,10 +28,12 @@ interface ITask {
   title: string;
   priority: number;
   categories?: string[];
-  date?: Date | null | undefined;
+  deadline?: string | null | undefined;
+  is_done: boolean;
 }
 
 const Dashboard: React.FC = () => {
+  const { user } = useAuth();
   const [tasks, setTasks] = useState<ITask[]>([]);
  
   const [creatingMode, setCreatingMode] = useState(false);
@@ -36,22 +43,11 @@ const Dashboard: React.FC = () => {
   const [selectedPriority, setSelectedPriority] = useState<number>(0);
 
   useEffect(() => {
-    setTasks([
-      {
-        id: 1,
-        title: "Entregar formulário",
-        priority: 3,
-        categories: [],
-        date: new Date()
-      },
-      {
-        id: 2,
-        title: "Entregar formulário",
-        priority: 1,
-        categories: ["Trabalho"],
-        date: new Date()
-      },
-    ])
+    api.get('user/tasks/').then(response => {
+      console.log(response.data);
+      setTasks(response.data)
+    })
+    
   }, []);
 
 
@@ -63,27 +59,58 @@ const Dashboard: React.FC = () => {
     setCreatingMode(false);
   }, []);
 
-  const handleDelete = useCallback((id) => {
+  const handleDelete = useCallback(async (id) => {
+    await api.delete(`user/tasks-detail/${id}/`);
+
     setTasks(prev => prev.filter(task => task.id !== id));
   }, []);
 
-  const handleSubmit = useCallback((e: FormEvent) => {
+  const handleToggle = useCallback(async (id) => {
+    const task = tasks.find(task => task.id === id);
+
+    if (!task) {
+      console.log(`Task with id: ${id} does not exist`)
+      return
+    }
+
+    await api.put(`user/tasks-detail/update/${id}/`, {
+      ...task,
+      is_done: !task.is_done 
+    });
+
+    setTasks(prev => prev.map(task => {
+      return task.id !== id
+        ? task
+        : {...task, is_done: !task.is_done}
+    }));
+
+  }, [tasks]);
+
+  const handleSubmit = useCallback( async (e: FormEvent) => {
     e.preventDefault();
 
-    const task = {
-      id: title.length,
+    const data = {
+      owner: user.id,
       title,
       priority: selectedPriority,
-      categories: [],
-      date,
+      deadline: date
+        ? format(new Date(date), 'yyyy-MM-dd HH:mm')
+        : format(new Date(), 'yyyy-MM-dd HH:mm') 
     }
+
+    const response = await api.post('tasks/', data);
+
+    console.log(response.data)
+
+    const task = response.data;
 
     setTasks(prev => [...prev, task]);
 
     setTitle('');
-    setCreatingMode(false);
+    setDate(null);
     setSelectedPriority(0);
-  }, [title, date, selectedPriority]);
+    setCreatingMode(false);
+  }, [title, date, selectedPriority, user]);
 
   return (
     <Container>
@@ -98,6 +125,7 @@ const Dashboard: React.FC = () => {
               return <Task
                 key={task.id}
                 data={task}
+                onDone={handleToggle}
                 onDelete={handleDelete}
               /> 
             })}

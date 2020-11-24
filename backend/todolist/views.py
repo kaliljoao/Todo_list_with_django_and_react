@@ -19,30 +19,30 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     @api_view(['GET'])
     def getAllFromUserId(request):
-        queryset = Task.objects.filter(Creator=request.user.id)
+        queryset = Task.objects.filter(owner=request.user.id)
         return JsonResponse(TaskSerializer(queryset, many=True).data, safe=False)
 
     @api_view(['GET'])
     def getAllFromUserIdAndPriority(request, priority):
-        queryset = Task.objects.filter(Creator=request.user.id, Priority=priority)
+        queryset = Task.objects.filter(owner=request.user.id, priority=priority)
         return JsonResponse(TaskSerializer(queryset, many=True).data, safe=False)
 
     @api_view(['DELETE'])
     def delete_task(request, id, format=None):
         if request.method == 'DELETE':
-            task = Task.objects.get(id=id, Creator=request.user.id)
+            task = Task.objects.get(id=id, owner=request.user.id)
             task.delete()
-            queryset = Task.objects.filter(Creator=request.user.id)
+            queryset = Task.objects.filter(owner=request.user.id)
             return JsonResponse(TaskSerializer(queryset, many=True).data, safe=False)
 
     @api_view(['PUT'])
     def update_task(request, id):
         # print(JSONParser.parse(request.data))
-        task = Task.objects.get(id=id, Creator=request.user.id)
+        task = Task.objects.get(id=id, owner=request.user.id)
         serializer = TaskSerializer(task, data=request.data)
         if serializer.is_valid():
             serializer.save()
-        queryset = Task.objects.filter(Creator=request.user.id)
+        queryset = Task.objects.filter(owner=request.user.id)
         return JsonResponse(TaskSerializer(queryset, many=True).data, safe=False)
 
 class UserViewSet(viewsets.ModelViewSet):
