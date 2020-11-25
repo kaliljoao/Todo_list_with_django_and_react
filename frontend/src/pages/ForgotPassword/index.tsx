@@ -4,7 +4,6 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
 import getValigationErrors from '../../utils/getValidationErrors';
-import api from '../../services/api';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';

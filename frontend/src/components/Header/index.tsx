@@ -1,18 +1,16 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form } from '@unform/web';
+//import { Form } from '@unform/web';
 
 import { useAuth } from '../../hooks/AuthContext';
 
-import Input from '../Input';
+//import Input from '../Input';
 
 import {
   Container,
   LeftSide,
-  MenuIcon,
   Logo,
   RightSide,
-  SearchIcon,
   Greeting,
   LogOutIcon
 } from './styles';
