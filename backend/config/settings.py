@@ -76,9 +76,7 @@ MIDDLEWARE = [
 
 CORS_ALLOW_HEADERS = [ 'token', 'content-type', 'Authorization' ]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 ROOT_URLCONF = 'config.urls'

@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/AuthContext';
 
-
 import Button from '../../components/Button';
 import DatePicker from '../../components/DatePicker';
 import Header from '../../components/Header';
@@ -49,7 +48,6 @@ const Dashboard: React.FC = () => {
     })
     
   }, []);
-
 
   const handleCreateTask = useCallback(() => {
     setCreatingMode(true);
