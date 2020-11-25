@@ -26,7 +26,7 @@ SECRET_KEY = 'g*o!h=t&&=!wpzpn)kiembcau)-1brf)w34&2ik_bcc84%zxl('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['working-service.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['working-service.herokuapp.com','localhost']
 
 # Application definition
 
@@ -63,8 +63,6 @@ INSTALLED_APPS = [
 SITE_ID = 1
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -78,7 +76,6 @@ MIDDLEWARE = [
 CORS_ALLOW_HEADERS = [ 'token', 'content-type', 'Authorization' ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
-
 
 ROOT_URLCONF = 'config.urls'
 
@@ -106,8 +103,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd19ofvissklbbt',
+        'HOST': 'ec2-34-237-236-32.compute-1.amazonaws.com',
+        'PORT': '5432',
+        'USER': 'iiavzmndprxece',
+        'PASSWORD': '18b3cd4a8faaa9117012ea9a0c612b44e22fbb5c6c349eb6ed1f4592dc6d2129'
     }
 }
 
