@@ -42,10 +42,9 @@ const Dashboard: React.FC = () => {
   const [selectedPriority, setSelectedPriority] = useState<number>(0);
 
   useEffect(() => {
-    api.get('user/tasks/').then(response => {
-      console.log(response.data);
-      setTasks(response.data)
-    })
+    api.get<ITask[]>('user/tasks/').then(response => {
+      setTasks(response.data.filter(task => task.is_done !== false));
+    });
     
   }, []);
 

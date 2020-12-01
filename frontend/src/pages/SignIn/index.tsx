@@ -4,7 +4,9 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
 import getValigationErrors from '../../utils/getValidationErrors';
+
 import { useAuth }  from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/ToastContext';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -28,6 +30,7 @@ interface ISignInFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const history = useHistory();
 
@@ -62,9 +65,15 @@ const SignIn: React.FC = () => {
         formRef.current?.setErrors(erros);
       }
 
+      addToast({
+        type: 'error',
+        title: 'Erro na autenticação',
+        description: 'Ocorreu um erro ao fazer login, cheque as credenciais.'
+      });
+
       setLoading(prev => !prev);
     }
-  }, [history, signIn]);
+  }, [history, signIn, addToast]);
 
   return (
     <Container>

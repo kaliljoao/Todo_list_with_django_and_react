@@ -46,13 +46,9 @@ export const AuthProvider: React.FC = ({ children }) => {
       password,
     });
   
-    console.log(response.data)
-
     const { access } = response.data;
 
     api.defaults.headers.Authorization = `Bearer  ${access}`;
-
-    console.log(api.defaults.headers.Authorization)
 
     response = await api.get('user/info/');
 

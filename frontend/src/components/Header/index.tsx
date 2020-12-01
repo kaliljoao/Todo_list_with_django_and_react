@@ -52,7 +52,7 @@ const Header: React.FC = () => {
 
         <div>
           <Greeting>
-            Bom dia, {user.first_name}
+            Bem-vindo, {user.first_name}
           </Greeting>
           
           <button

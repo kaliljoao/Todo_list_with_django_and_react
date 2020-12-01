@@ -1,10 +1,12 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 
 import getValigationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+
+import { useToast } from '../../hooks/ToastContext';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -31,8 +33,12 @@ interface ISignUpFormData {
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
+  const { addToast } = useToast();
+
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCallback( async (data: ISignUpFormData) => {
+    setLoading(prev => !prev);
 
     try {
       formRef.current?.setErrors({});
@@ -49,15 +55,20 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      const response = await api.post('/users/', {
+      await api.post('/users/', {
         ...data,
         username: data.email,
         first_name: data.name
       });
 
-      console.log(response);
-
       history.push('/');
+
+      addToast({
+        type: 'success',
+        title: 'Cadastro realizado!',
+        description: 'Você já pode fazer seu logon no Working!',
+      });
+
 
     } catch(err) {
       if (err instanceof Yup.ValidationError) {
@@ -65,8 +76,16 @@ const SignUp: React.FC = () => {
 
         formRef.current?.setErrors(erros);
       }
+
+      addToast({
+        type: 'error',
+        title: 'Erro no cadastro',
+        description: 'Ocorreu um erro ao fazer cadastro, tente novamente.'
+      });
+
+      setLoading(prev => !prev);
     }
-  },[history]);
+  },[history, addToast]);
 
   return (
     <Container>
@@ -105,6 +124,7 @@ const SignUp: React.FC = () => {
 
           <Button
             type="submit"
+            loading={loading}
             containerStyles={{
               marginTop: "3.4rem",
             }}
