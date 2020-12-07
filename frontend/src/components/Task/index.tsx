@@ -41,9 +41,6 @@ const Task: React.FC<TaskProps> = ({ data, onDone, onDelete }) => {
           { data.categories?.length !== 0 &&
             <Group>#{data.categories?.join(" #")}</Group>
           }
-          { data.deadline &&
-            <TimeLeft>Restam 30 min</TimeLeft>
-          }
         </Info>
         
         <CheckBox
